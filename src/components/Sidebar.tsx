@@ -1,16 +1,21 @@
 import {
-  ChatsCircle,
-  ChatCircleText,
-  User,
-  Phone,
-  Gear,
-  MagnifyingGlass,
+  SignOut,
   Plus,
   CheckCircle
+
 } from '@phosphor-icons/react';
+import { useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { authStore } from '../store/authStore';
 import './Sidebar.css';
 
-export function Sidebar() {
+export const Sidebar = observer(() => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    authStore.clearCredentials();
+    navigate('/login');
+  };
   return (
     <div className="sidebar">
       <div className="sidebar-header">
@@ -18,31 +23,6 @@ export function Sidebar() {
         <button className="icon-button">
           <Plus size={20} weight="bold" />
         </button>
-      </div>
-
-      <nav className="sidebar-nav">
-        <button className="nav-item active">
-          <ChatsCircle size={20} weight="regular" />
-          <span>Все</span>
-        </button>
-        <button className="nav-item">
-          <ChatCircleText size={20} weight="regular" />
-          <span>Новые</span>
-          <span className="badge">1</span>
-        </button>
-        <button className="nav-item">
-          <User size={20} weight="regular" />
-          <span>Контакты</span>
-        </button>
-        <button className="nav-item">
-          <Phone size={20} weight="regular" />
-          <span>Звонки</span>
-        </button>
-      </nav>
-
-      <div className="sidebar-search">
-        <MagnifyingGlass size={18} weight="regular" className="search-icon" />
-        <input type="text" placeholder="Поиск" />
       </div>
 
       <div className="chat-list">
@@ -65,11 +45,11 @@ export function Sidebar() {
       </div>
 
       <div className="sidebar-footer">
-        <button className="nav-item">
-          <Gear size={20} weight="regular" />
-          <span>Настройки</span>
+        <button className="nav-item" onClick={handleLogout}>
+          <SignOut size={20} weight="regular" />
+          <span>Выйти</span>
         </button>
       </div>
     </div>
   );
-}
+});

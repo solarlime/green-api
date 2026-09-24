@@ -3,8 +3,6 @@ import {
   Phone,
   VideoCamera,
   MagnifyingGlass,
-  Paperclip,
-  Smiley,
   ArrowUp
 } from '@phosphor-icons/react';
 import { Avatar } from '@radix-ui/react-avatar';
@@ -54,26 +52,14 @@ export function ChatWindow() {
             </div>
           </div>
         </div>
-
-        <div className="message message-system">
-          <div className="message-content">
-            <p>Зашёл в новый мессенджер MAX, решил поприветствовать 👋</p>
-          </div>
-        </div>
       </div>
 
       <div className="chat-input-area">
-        <button className="icon-button">
-          <Paperclip size={24} weight="regular" />
-        </button>
         <input
           type="text"
           placeholder="Написать сообщение..."
           className="message-input"
         />
-        <button className="icon-button">
-          <Smiley size={24} weight="regular" />
-        </button>
         <button className="send-button">
           <ArrowUp size={20} weight="bold" />
         </button>
