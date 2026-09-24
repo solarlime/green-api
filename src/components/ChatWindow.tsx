@@ -6,23 +6,44 @@ import {
   ArrowUp
 } from '@phosphor-icons/react';
 import { Avatar } from '@radix-ui/react-avatar';
+import { observer } from 'mobx-react-lite';
+import { chatStore } from '../store/chatStore';
 import './ChatWindow.css';
 
-export function ChatWindow() {
+export const ChatWindow = observer(() => {
+  const selectedChat = chatStore.selectedChat;
+
+  if (!selectedChat) {
+    return (
+      <div className="chat-window">
+        <div className="empty-state">
+          <h2>Выберите чат</h2>
+          <p>Выберите чат из списка или создайте новый</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <button className="icon-button">
+        <button className="icon-button" onClick={() => chatStore.clearSelectedChat()}>
           <ArrowLeft size={20} weight="bold" />
         </button>
 
         <Avatar className="user-avatar">
-          <div className="avatar-image dog-avatar" />
+          <div className="avatar-image">
+            <div className="avatar-placeholder">
+              {selectedChat.username ? selectedChat.username[0].toUpperCase() : selectedChat.phoneNumber.toString()[0]}
+            </div>
+          </div>
         </Avatar>
 
         <div className="user-info">
-          <h3 className="user-name">Михаил Степашкин</h3>
-          <p className="user-status">был(-а) в сети в 20:48 04 июн.</p>
+          <h3 className="user-name">
+            {selectedChat.username || `+${selectedChat.phoneNumber}`}
+          </h3>
+          <p className="user-status">Telegram</p>
         </div>
 
         <div className="header-actions">
@@ -39,18 +60,8 @@ export function ChatWindow() {
       </div>
 
       <div className="chat-messages">
-        <div className="date-separator">
-          <span>06 июня 2025 г.</span>
-        </div>
-
-        <div className="message message-sent">
-          <div className="message-content">
-            <p>Михаил, привет, как дела?:)</p>
-            <div className="message-meta">
-              <span className="message-time">16:43</span>
-              <span className="message-check">✓✓</span>
-            </div>
-          </div>
+        <div className="empty-chat-message">
+          <p>Нет сообщений</p>
         </div>
       </div>
 
@@ -66,4 +77,4 @@ export function ChatWindow() {
       </div>
     </div>
   );
-}
+});
