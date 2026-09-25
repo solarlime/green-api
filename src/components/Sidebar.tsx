@@ -1,8 +1,6 @@
 import {
   SignOut,
   Plus,
-  CheckCircle
-
 } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
@@ -67,7 +65,7 @@ export const Sidebar = observer(() => {
           <span>Выйти</span>
         </button>
       </div>
-      
+
       <AddChatModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );

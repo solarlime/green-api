@@ -15,6 +15,29 @@ export interface CheckAccountError {
   reason?: string
 }
 
+export interface SendMessageResponse {
+  idMessage: string
+}
+
+export async function sendMessage(chatId: string, message: string): Promise<SendMessageResponse> {
+  const url = `${API_URL}/waInstance${authStore.idInstance}/sendMessage/${authStore.apiTokenInstance}`
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ chatId, message }),
+  })
+
+  if (!response.ok) {
+    const error: CheckAccountError = await response.json()
+    throw new Error(error.reason || 'Failed to send message')
+  }
+
+  return response.json()
+}
+
 export async function checkAccount(phoneNumber?: number, username?: string): Promise<CheckAccountResponse> {
   const url = `${API_URL}/waInstance${authStore.idInstance}/checkAccount/${authStore.apiTokenInstance}`
 
