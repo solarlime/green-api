@@ -7,6 +7,21 @@
   height: 100%;
 }
 
+.sidebar-mobile {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  max-width: 380px;
+  height: 100vh;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-hidden {
+  transform: translateX(-100%);
+}
+
 .sidebar-header {
   display: flex;
   align-items: center;

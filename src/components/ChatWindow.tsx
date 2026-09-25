@@ -1,22 +1,30 @@
 import {
-  ArrowLeft,
   Phone,
   VideoCamera,
   MagnifyingGlass,
-  ArrowUp
+  ArrowUp,
+  X,
+  List
 } from '@phosphor-icons/react';
 import { Avatar } from '@radix-ui/react-avatar';
 import { observer } from 'mobx-react-lite';
 import { useState, useOptimistic, useTransition, useEffect } from 'react';
 import { chatStore, type Message } from '../store/chatStore';
 import { sendMessage } from '../services/greenApi';
+import { useWindowSize } from '../hooks/useWindowSize';
 import './ChatWindow.css';
 
-export const ChatWindow = observer(() => {
+interface ChatWindowProps {
+  onToggleSidebar?: () => void;
+}
+
+export const ChatWindow = observer(({ onToggleSidebar }: ChatWindowProps) => {
   const selectedChat = chatStore.selectedChat;
   const messages = chatStore.selectedChatMessages;
   const [input, setInput] = useState('');
   const [isPending, startTransition] = useTransition();
+  const { width } = useWindowSize();
+  const isMobile = width <= 600;
 
   useEffect(() => {
     return () => {
@@ -34,6 +42,16 @@ export const ChatWindow = observer(() => {
   if (!selectedChat) {
     return (
       <div className="chat-window">
+        <div className="chat-header">
+          <button
+            className="icon-button"
+            onClick={() => isMobile ? onToggleSidebar?.() : chatStore.clearSelectedChat()}
+            disabled={!isMobile}
+          >
+            {isMobile ? <List size={20} weight="bold" /> : <X size={20} weight="bold" />}
+          </button>
+        </div>
+
         <div className="empty-state">
           <h2>Выберите чат</h2>
           <p>Выберите чат из списка или создайте новый</p>
@@ -83,8 +101,11 @@ export const ChatWindow = observer(() => {
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <button className="icon-button" onClick={() => chatStore.clearSelectedChat()}>
-          <ArrowLeft size={20} weight="bold" />
+        <button
+          className="icon-button"
+          onClick={() => isMobile ? onToggleSidebar?.() : chatStore.clearSelectedChat()}
+        >
+          {isMobile ? <List size={20} weight="bold" /> : <X size={20} weight="bold" />}
         </button>
 
         <Avatar className="user-avatar">

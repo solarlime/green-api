@@ -18,6 +18,15 @@
   border-bottom: 1px solid #e5e7eb;
 }
 
+.chat-header .icon-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.chat-header .icon-button:disabled:hover {
+  background-color: transparent;
+}
+
 .user-avatar {
   width: 44px;
   height: 44px;

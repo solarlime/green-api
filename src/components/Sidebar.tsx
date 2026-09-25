@@ -1,6 +1,7 @@
 import {
   SignOut,
   Plus,
+  X,
 } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
@@ -8,20 +9,41 @@ import { useState } from 'react';
 import { authStore } from '../store/authStore';
 import { chatStore } from '../store/chatStore';
 import AddChatModal from './AddChatModal';
+import { useWindowSize } from '../hooks/useWindowSize';
 import './Sidebar.css';
 
-export const Sidebar = observer(() => {
+interface SidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export const Sidebar = observer(({ isOpen, onClose }: SidebarProps) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { width } = useWindowSize();
+  const isMobile = width <= 600;
 
   const handleLogout = () => {
     authStore.clearCredentials();
     navigate('/login');
   };
+
+  const handleChatClick = (chatId: string) => {
+    chatStore.selectChat(chatId);
+    if (isMobile && onClose) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${isMobile ? 'sidebar-mobile' : ''} ${isMobile && !isOpen ? 'sidebar-hidden' : ''}`}>
       <div className="sidebar-header">
         <h2>Чаты</h2>
+        {isMobile && onClose && (
+          <button className="icon-button" onClick={onClose}>
+            <X size={20} weight="bold" />
+          </button>
+        )}
         <button className="icon-button" onClick={() => setIsModalOpen(true)}>
           <Plus size={20} weight="bold" />
         </button>
@@ -32,7 +54,7 @@ export const Sidebar = observer(() => {
           <div
             key={chat.id}
             className={`chat-item ${chatStore.selectedChatId === chat.id ? 'active' : ''}`}
-            onClick={() => chatStore.selectChat(chat.id)}
+            onClick={() => handleChatClick(chat.id)}
           >
             <div className="chat-avatar">
               <div className="avatar-placeholder">
