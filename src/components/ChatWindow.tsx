@@ -7,7 +7,7 @@ import {
 } from '@phosphor-icons/react';
 import { Avatar } from '@radix-ui/react-avatar';
 import { observer } from 'mobx-react-lite';
-import { useState, useOptimistic, useTransition } from 'react';
+import { useState, useOptimistic, useTransition, useEffect } from 'react';
 import { chatStore, type Message } from '../store/chatStore';
 import { sendMessage } from '../services/greenApi';
 import './ChatWindow.css';
@@ -17,6 +17,14 @@ export const ChatWindow = observer(() => {
   const messages = chatStore.selectedChatMessages;
   const [input, setInput] = useState('');
   const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    return () => {
+      if (selectedChat) {
+        chatStore.stopPolling(selectedChat.id);
+      }
+    };
+  }, [selectedChat]);
 
   const [optimisticMessages, addOptimisticMessage] = useOptimistic(
     messages,

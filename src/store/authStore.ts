@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx'
+import { chatStore } from './chatStore'
 
 class AuthStore {
   idInstance: string = ''
@@ -30,6 +31,9 @@ class AuthStore {
 
     localStorage.removeItem('idInstance')
     localStorage.removeItem('apiTokenInstance')
+
+    // Stop all polling processes
+    chatStore.stopAllPolling()
   }
 
   get isAuthenticated(): boolean {

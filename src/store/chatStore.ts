@@ -27,6 +27,11 @@ class ChatStore {
 
   constructor() {
     makeAutoObservable(this)
+
+    // Stop all polling before page unload
+    window.addEventListener('beforeunload', () => {
+      this.stopAllPolling()
+    })
   }
 
   addChat(chat: Chat) {
@@ -89,10 +94,14 @@ class ChatStore {
       }
 
       // Continue polling after response is received
-      await poll()
+      if (this.pollingIntervals.has(chatId)) {
+        const timeoutId = setTimeout(() => poll(), 0)
+        this.pollingIntervals.set(chatId, timeoutId)
+      }
     }
 
-    await poll()
+    const timeoutId = setTimeout(() => poll(), 0)
+    this.pollingIntervals.set(chatId, timeoutId)
   }
 
   stopPolling(chatId: string) {
@@ -101,6 +110,11 @@ class ChatStore {
       clearTimeout(interval)
       this.pollingIntervals.delete(chatId)
     }
+  }
+
+  stopAllPolling() {
+    this.pollingIntervals.forEach((interval) => clearTimeout(interval))
+    this.pollingIntervals.clear()
   }
 
   handleNotification(body: NotificationBody) {
