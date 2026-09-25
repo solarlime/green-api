@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx'
+import { receiveNotification, deleteNotification, type NotificationBody } from '../services/greenApi'
 
 export interface Message {
   id: string
@@ -22,6 +23,7 @@ class ChatStore {
   chats: Chat[] = []
   selectedChatId: string | null = null
   messages: Map<string, Message[]> = new Map()
+  pollingIntervals: Map<string, NodeJS.Timeout> = new Map()
 
   constructor() {
     makeAutoObservable(this)
@@ -29,6 +31,7 @@ class ChatStore {
 
   addChat(chat: Chat) {
     this.chats.unshift(chat)
+    this.startPolling(chat.id)
   }
 
   selectChat(chatId: string) {
@@ -64,6 +67,55 @@ class ChatStore {
       if (message) {
         Object.assign(message, updates)
       }
+    }
+  }
+
+  async startPolling(chatId: string) {
+    if (this.pollingIntervals.has(chatId)) {
+      return
+    }
+
+    const poll = async () => {
+      try {
+        const notification = await receiveNotification(30)
+
+        if (notification && notification.body) {
+          this.handleNotification(notification.body)
+          // Delete notification after processing
+          await deleteNotification(notification.receiptId)
+        }
+      } catch (error) {
+        console.error('Polling error:', error)
+      }
+
+      // Continue polling after response is received
+      await poll()
+    }
+
+    await poll()
+  }
+
+  stopPolling(chatId: string) {
+    const interval = this.pollingIntervals.get(chatId)
+    if (interval) {
+      clearTimeout(interval)
+      this.pollingIntervals.delete(chatId)
+    }
+  }
+
+  handleNotification(body: NotificationBody) {
+    const { senderData, messageData, idMessage, timestamp } = body
+
+    // Check if this is a text message
+    if (messageData.typeMessage === 'textMessage' && messageData.textMessageData) {
+      const message: Message = {
+        id: idMessage,
+        text: messageData.textMessageData.textMessage,
+        timestamp: new Date(timestamp * 1000),
+        isSent: false,
+      }
+
+      this.addMessage(senderData.chatId, message)
     }
   }
 

@@ -19,6 +19,68 @@ export interface SendMessageResponse {
   idMessage: string
 }
 
+export interface NotificationBody {
+  typeWebhook: string
+  instanceData: {
+    idInstance: number
+    wid: string
+    typeInstance: string
+  }
+  timestamp: number
+  idMessage: string
+  senderData: {
+    chatId: string
+    sender: string
+    senderName?: string
+  }
+  messageData: {
+    typeMessage: string
+    textMessageData?: {
+      textMessage: string
+    }
+  }
+}
+
+export interface ReceiveNotificationResponse {
+  receiptId: number
+  body: NotificationBody
+}
+
+export async function receiveNotification(receiveTimeout: number = 30): Promise<ReceiveNotificationResponse | null> {
+  const url = `${API_URL}/waInstance${authStore.idInstance}/receiveNotification/${authStore.apiTokenInstance}?receiveTimeout=${receiveTimeout}`
+
+  const response = await fetch(url, {
+    method: 'GET',
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to receive notification')
+  }
+
+  const data = await response.json()
+
+  return data
+}
+
+export interface DeleteNotificationResponse {
+  result: boolean
+  reason?: string
+}
+
+export async function deleteNotification(receiptId: number): Promise<DeleteNotificationResponse> {
+  const url = `${API_URL}/waInstance${authStore.idInstance}/deleteNotification/${authStore.apiTokenInstance}/${receiptId}`
+
+  const response = await fetch(url, {
+    method: 'DELETE',
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to delete notification')
+  }
+
+  return response.json()
+}
+
 export async function sendMessage(chatId: string, message: string): Promise<SendMessageResponse> {
   const url = `${API_URL}/waInstance${authStore.idInstance}/sendMessage/${authStore.apiTokenInstance}`
 
