@@ -1,0 +1,85 @@
+:root {
+  /* Base sizes */
+  --size-2xs: 4px;
+  --size-xs: 8px;
+  --size-s: 12px;
+  --size-m: 14px;
+  --size-l: 16px;
+  --size-xl: 20px;
+  --size-2xl: 24px;
+  --size-3xl: 32px;
+  --size-4xl: 40px;
+  --size-5xl: 48px;
+  --size-6xl: 64px;
+
+  /* Spacing - based on base sizes */
+  --spacing-2xs: var(--size-2xs);
+  --spacing-xs: var(--size-xs);
+  --spacing-s: var(--size-s);
+  --spacing-m: var(--size-m);
+  --spacing-l: var(--size-l);
+  --spacing-xl: var(--size-xl);
+  --spacing-2xl: var(--size-2xl);
+  --spacing-3xl: var(--size-3xl);
+  --spacing-4xl: var(--size-4xl);
+  --spacing-5xl: var(--size-5xl);
+  --spacing-6xl: var(--size-6xl);
+
+  /* Border radius - based on base sizes */
+  --radius-xs: var(--size-xs);
+  --radius-s: var(--size-s);
+  --radius-m: var(--size-l);
+  --radius-l: var(--size-xl);
+  --radius-xl: var(--size-2xl);
+  --radius-full: 9999px;
+
+  /* Font sizes - based on base sizes */
+  --font-size-xs: 12px;
+  --font-size-s: var(--size-m);
+  --font-size-m: var(--size-l);
+  --font-size-l: var(--size-xl);
+  --font-size-xl: var(--size-2xl);
+  --font-size-2xl: var(--size-3xl);
+  --font-size-3xl: var(--size-4xl);
+
+  /* Font weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line heights */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* Icon sizes - based on base sizes */
+  --icon-size-xs: var(--size-s);
+  --icon-size-s: var(--size-l);
+  --icon-size-m: var(--size-xl);
+  --icon-size-l: var(--size-2xl);
+  --icon-size-xl: var(--size-3xl);
+
+  /* Avatar sizes - based on base sizes */
+  --avatar-size-s: var(--size-4xl);
+  --avatar-size-m: var(--size-5xl);
+  --avatar-size-l: var(--size-6xl);
+
+  /* Sidebar width */
+  --sidebar-width: 300px;
+
+  /* Transition durations */
+  --transition-fast: 150ms;
+  --transition-normal: 200ms;
+  --transition-slow: 300ms;
+
+  /* Z-index scale */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-tooltip: 700;
+}
