@@ -1,7 +1,4 @@
 import {
-  PhoneIcon,
-  VideoCameraIcon,
-  MagnifyingGlassIcon,
   ArrowUpIcon,
   XIcon,
   ListIcon,
