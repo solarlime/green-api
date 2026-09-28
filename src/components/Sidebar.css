@@ -14,7 +14,7 @@
   z-index: var(--z-modal);
   width: 100%;
   max-width: var(--sidebar-width);
-  height: 100vh;
+  height: 100dvh;
   transition: transform var(--transition-slow) ease;
 }
 
@@ -129,7 +129,11 @@
 .chat-list {
   flex: 1;
   overflow-y: auto;
-  padding: 0 var(--spacing-l);
+  padding: var(--spacing-s) var(--spacing-xl);
+}
+
+.chat-list > .chat-item:not(:last-child) {
+  margin-bottom: var(--spacing-xs);
 }
 
 .chat-item {
@@ -141,6 +145,7 @@
   cursor: pointer;
   transition: background-color var(--transition-normal);
   position: relative;
+  text-align: left;
 }
 
 .chat-item:hover {
@@ -149,26 +154,6 @@
 
 .chat-item.active {
   background-color: #e0f2fe;
-}
-
-.chat-avatar {
-  position: relative;
-  width: var(--avatar-size-m);
-  height: var(--avatar-size-m);
-  flex-shrink: 0;
-}
-
-.avatar-placeholder {
-  width: var(--avatar-size-m);
-  height: var(--avatar-size-m);
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-semibold);
 }
 
 .verified-badge {

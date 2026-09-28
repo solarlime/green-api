@@ -1,10 +1,11 @@
 import {
-  Phone,
-  VideoCamera,
-  MagnifyingGlass,
-  ArrowUp,
-  X,
-  List
+  PhoneIcon,
+  VideoCameraIcon,
+  MagnifyingGlassIcon,
+  ArrowUpIcon,
+  XIcon,
+  ListIcon,
+  ChecksIcon
 } from '@phosphor-icons/react';
 import { Avatar } from '@radix-ui/react-avatar';
 import { observer } from 'mobx-react-lite';
@@ -48,7 +49,7 @@ export const ChatWindow = observer(({ onToggleSidebar }: ChatWindowProps) => {
             onClick={() => isMobile ? onToggleSidebar?.() : chatStore.clearSelectedChat()}
             disabled={!isMobile}
           >
-            {isMobile ? <List size={20} weight="bold" /> : <X size={20} weight="bold" />}
+            {isMobile ? <ListIcon size={20} weight="bold" /> : <XIcon size={20} weight="bold" />}
           </button>
         </div>
 
@@ -105,35 +106,18 @@ export const ChatWindow = observer(({ onToggleSidebar }: ChatWindowProps) => {
           className="icon-button"
           onClick={() => isMobile ? onToggleSidebar?.() : chatStore.clearSelectedChat()}
         >
-          {isMobile ? <List size={20} weight="bold" /> : <X size={20} weight="bold" />}
+          {isMobile ? <ListIcon size={20} weight="bold" /> : <XIcon size={20} weight="bold" />}
         </button>
-
-        <Avatar className="user-avatar">
-          <div className="avatar-image">
-            <div className="avatar-placeholder">
-              {selectedChat.username ? selectedChat.username[0].toUpperCase() : selectedChat.phoneNumber.toString()[0]}
-            </div>
-          </div>
-        </Avatar>
 
         <div className="user-info">
           <h3 className="user-name">
             {selectedChat.username || `+${selectedChat.phoneNumber}`}
           </h3>
-          <p className="user-status">Telegram</p>
         </div>
 
-        <div className="header-actions">
-          <button className="icon-button">
-            <Phone size={20} weight="regular" />
-          </button>
-          <button className="icon-button">
-            <VideoCamera size={20} weight="regular" />
-          </button>
-          <button className="icon-button">
-            <MagnifyingGlass size={20} weight="regular" />
-          </button>
-        </div>
+        <Avatar className="user-avatar">
+          {selectedChat.username ? selectedChat.username[1].toUpperCase() : '😎'}
+        </Avatar>
       </div>
 
       <div className="chat-messages">
@@ -145,13 +129,13 @@ export const ChatWindow = observer(({ onToggleSidebar }: ChatWindowProps) => {
           optimisticMessages.map((message) => (
             <div key={message.id} className={`message ${message.isSent ? 'message-sent' : ''}`}>
               <div className="message-content">
-                <p>{message.text}</p>
+                <p>{message.text.split('\n').map((p, i) => <>{i > 0 && <br />}{p}</>)}</p>
                 <div className="message-meta">
                   <span className="message-time">
                     {message.timestamp.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
                   </span>
                   {message.isPending && <span className="message-pending">...</span>}
-                  {message.isSent && !message.isPending && <span className="message-check">✓✓</span>}
+                  {message.isSent && !message.isPending && <span className="message-check"><ChecksIcon size={20} weight="light" /></span>}
                 </div>
               </div>
             </div>
@@ -160,8 +144,7 @@ export const ChatWindow = observer(({ onToggleSidebar }: ChatWindowProps) => {
       </div>
 
       <form onSubmit={handleSendMessage} className="chat-input-area">
-        <input
-          type="text"
+        <textarea
           placeholder="Написать сообщение..."
           className="message-input"
           value={input}
@@ -169,7 +152,7 @@ export const ChatWindow = observer(({ onToggleSidebar }: ChatWindowProps) => {
           disabled={isPending}
         />
         <button type="submit" className="send-button" disabled={isPending || !input.trim()}>
-          <ArrowUp size={20} weight="bold" />
+          <ArrowUpIcon size={20} weight="bold" />
         </button>
       </form>
     </div>

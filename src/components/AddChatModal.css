@@ -16,14 +16,15 @@
   border-radius: var(--radius-l);
   padding: var(--spacing-2xl);
   width: 100%;
-  max-width: var(--size-5xl);
+  max-width: calc(10 * var(--size-5xl));
   box-shadow: 0 var(--spacing-xl) var(--size-4xl) rgba(0, 0, 0, 0.2);
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
   margin-bottom: var(--spacing-2xl);
 }
 
@@ -32,6 +33,7 @@
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
   color: #111827;
+  text-align: left;
 }
 
 .modal-close {

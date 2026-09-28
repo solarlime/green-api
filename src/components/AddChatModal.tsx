@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { observer } from 'mobx-react-lite'
-import { X } from '@phosphor-icons/react'
+import { XIcon } from '@phosphor-icons/react'
 import { checkAccount } from '../services/greenApi'
 import { chatStore } from '../store/chatStore'
 import './AddChatModal.css'
@@ -77,9 +77,9 @@ const AddChatModal = observer(({ isOpen, onClose }: AddChatModalProps) => {
     <div className="modal-backdrop" onClick={handleBackdropClick}>
       <div className="modal-content">
         <div className="modal-header">
-          <h2>Введите номер телефона или username</h2>
+          <h2>Введите номер телефона или&nbsp;username</h2>
           <button className="modal-close" onClick={onClose}>
-            <X size={20} weight="bold" />
+            <XIcon size={20} weight="bold" />
           </button>
         </div>
         <form onSubmit={handleSubmit} className="modal-form">

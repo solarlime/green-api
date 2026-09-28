@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type SubmitEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { authStore } from '../store/authStore'
@@ -9,7 +9,7 @@ const Login = observer(() => {
   const [apiTokenInstance, setApiTokenInstance] = useState('')
   const navigate = useNavigate()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault()
 
     if (idInstance && apiTokenInstance) {

@@ -1,7 +1,7 @@
 import {
-  SignOut,
-  Plus,
-  X,
+  SignOutIcon,
+  PlusIcon,
+  XIcon,
 } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
@@ -11,6 +11,7 @@ import { chatStore } from '../store/chatStore';
 import AddChatModal from './AddChatModal';
 import { useWindowSize } from '../hooks/useWindowSize';
 import './Sidebar.css';
+import { Avatar } from "@radix-ui/react-avatar";
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -39,14 +40,14 @@ export const Sidebar = observer(({ isOpen, onClose }: SidebarProps) => {
     <div className={`sidebar ${isMobile ? 'sidebar-mobile' : ''} ${isMobile && !isOpen ? 'sidebar-hidden' : ''}`}>
       <div className="sidebar-header">
         <h2>Чаты</h2>
+        <button className="icon-button" onClick={() => setIsModalOpen(true)}>
+          <PlusIcon size={20} weight="bold" />
+        </button>
         {isMobile && onClose && (
           <button className="icon-button" onClick={onClose}>
-            <X size={20} weight="bold" />
+            <XIcon size={20} weight="bold" />
           </button>
         )}
-        <button className="icon-button" onClick={() => setIsModalOpen(true)}>
-          <Plus size={20} weight="bold" />
-        </button>
       </div>
 
       <div className="chat-list">
@@ -56,11 +57,11 @@ export const Sidebar = observer(({ isOpen, onClose }: SidebarProps) => {
             className={`chat-item ${chatStore.selectedChatId === chat.id ? 'active' : ''}`}
             onClick={() => handleChatClick(chat.id)}
           >
-            <div className="chat-avatar">
+            <Avatar className="user-avatar">
               <div className="avatar-placeholder">
-                {chat.username ? chat.username[0].toUpperCase() : chat.phoneNumber.toString()[0]}
+                {chat.username ? chat.username[1].toUpperCase() : '😎'}
               </div>
-            </div>
+            </Avatar>
             <div className="chat-info">
               <div className="chat-name-row">
                 <span className="chat-name">
@@ -83,7 +84,7 @@ export const Sidebar = observer(({ isOpen, onClose }: SidebarProps) => {
 
       <div className="sidebar-footer">
         <button className="nav-item" onClick={handleLogout}>
-          <SignOut size={20} weight="regular" />
+          <SignOutIcon size={20} weight="regular" />
           <span>Выйти</span>
         </button>
       </div>

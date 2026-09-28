@@ -61,9 +61,7 @@
   --icon-size-xl: var(--size-3xl);
 
   /* Avatar sizes - based on base sizes */
-  --avatar-size-s: var(--size-4xl);
-  --avatar-size-m: var(--size-5xl);
-  --avatar-size-l: var(--size-6xl);
+  --avatar-size: calc(var(--size-xl) + calc(2 * var(--spacing-s)));
 
   /* Sidebar width */
   --sidebar-width: 300px;
