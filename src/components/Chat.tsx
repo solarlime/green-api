@@ -13,7 +13,10 @@ export function Chat() {
     <div className="chat-container">
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       {isMobile && isSidebarOpen && (
-        <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)} />
+        <div
+          className="sidebar-overlay"
+          onClick={() => setIsSidebarOpen(false)}
+        />
       )}
       <ChatWindow onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
     </div>

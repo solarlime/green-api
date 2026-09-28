@@ -2,9 +2,8 @@ import {
   ArrowUpIcon,
   XIcon,
   ListIcon,
-  ChecksIcon
+  ChecksIcon,
 } from '@phosphor-icons/react';
-import { Avatar } from '@radix-ui/react-avatar';
 import { observer } from 'mobx-react-lite';
 import { useState, useOptimistic, useTransition } from 'react';
 import { chatStore, type Message } from '../store/chatStore';
@@ -35,10 +34,16 @@ export const ChatWindow = observer(({ onToggleSidebar }: ChatWindowProps) => {
         <div className="chat-header">
           <button
             className="icon-button"
-            onClick={() => isMobile ? onToggleSidebar?.() : chatStore.clearSelectedChat()}
+            onClick={() =>
+              isMobile ? onToggleSidebar?.() : chatStore.clearSelectedChat()
+            }
             disabled={!isMobile}
           >
-            {isMobile ? <ListIcon size={20} weight="bold" /> : <XIcon size={20} weight="bold" />}
+            {isMobile ? (
+              <ListIcon size={20} weight="bold" />
+            ) : (
+              <XIcon size={20} weight="bold" />
+            )}
           </button>
         </div>
 
@@ -80,7 +85,10 @@ export const ChatWindow = observer(({ onToggleSidebar }: ChatWindowProps) => {
           isPending: false,
         });
 
-        chatStore.updateMessage(selectedChat.id, tempId, { id: response.idMessage, isPending: false });
+        chatStore.updateMessage(selectedChat.id, tempId, {
+          id: response.idMessage,
+          isPending: false,
+        });
       } catch (error) {
         chatStore.updateMessage(selectedChat.id, tempId, { isPending: false });
         console.error('Failed to send message:', error);
@@ -93,9 +101,15 @@ export const ChatWindow = observer(({ onToggleSidebar }: ChatWindowProps) => {
       <div className="chat-header">
         <button
           className="icon-button"
-          onClick={() => isMobile ? onToggleSidebar?.() : chatStore.clearSelectedChat()}
+          onClick={() =>
+            isMobile ? onToggleSidebar?.() : chatStore.clearSelectedChat()
+          }
         >
-          {isMobile ? <ListIcon size={20} weight="bold" /> : <XIcon size={20} weight="bold" />}
+          {isMobile ? (
+            <ListIcon size={20} weight="bold" />
+          ) : (
+            <XIcon size={20} weight="bold" />
+          )}
         </button>
 
         <div className="user-info">
@@ -104,9 +118,11 @@ export const ChatWindow = observer(({ onToggleSidebar }: ChatWindowProps) => {
           </h3>
         </div>
 
-        <Avatar className="user-avatar">
-          {selectedChat.username ? selectedChat.username[1].toUpperCase() : '😎'}
-        </Avatar>
+        <div className="user-avatar">
+          {selectedChat.username
+            ? selectedChat.username[1].toUpperCase()
+            : '😎'}
+        </div>
       </div>
 
       <div className="chat-messages">
@@ -116,15 +132,34 @@ export const ChatWindow = observer(({ onToggleSidebar }: ChatWindowProps) => {
           </div>
         ) : (
           optimisticMessages.map((message) => (
-            <div key={message.id} className={`message ${message.isSent ? 'message-sent' : ''}`}>
+            <div
+              key={message.id}
+              className={`message ${message.isSent ? 'message-sent' : ''}`}
+            >
               <div className="message-content">
-                <p>{message.text.split('\n').map((p, i) => <span key={i}>{i > 0 && <br />}{p}</span>)}</p>
+                <p>
+                  {message.text.split('\n').map((p, i) => (
+                    <span key={i}>
+                      {i > 0 && <br />}
+                      {p}
+                    </span>
+                  ))}
+                </p>
                 <div className="message-meta">
                   <span className="message-time">
-                    {message.timestamp.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
+                    {message.timestamp.toLocaleTimeString('ru-RU', {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
                   </span>
-                  {message.isPending && <span className="message-pending">...</span>}
-                  {message.isSent && !message.isPending && <span className="message-check"><ChecksIcon size={20} weight="light" /></span>}
+                  {message.isPending && (
+                    <span className="message-pending">...</span>
+                  )}
+                  {message.isSent && !message.isPending && (
+                    <span className="message-check">
+                      <ChecksIcon size={20} weight="light" />
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -140,7 +175,11 @@ export const ChatWindow = observer(({ onToggleSidebar }: ChatWindowProps) => {
           onChange={(e) => setInput(e.target.value)}
           disabled={isPending}
         />
-        <button type="submit" className="send-button" disabled={isPending || !input.trim()}>
+        <button
+          type="submit"
+          className="send-button"
+          disabled={isPending || !input.trim()}
+        >
           <ArrowUpIcon size={20} weight="bold" />
         </button>
       </form>

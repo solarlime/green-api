@@ -1,22 +1,22 @@
-import { useState, type SubmitEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { observer } from 'mobx-react-lite'
-import { authStore } from '../store/authStore'
-import './Login.css'
+import { useState, type SubmitEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { authStore } from '../store/authStore';
+import './Login.css';
 
 const Login = observer(() => {
-  const [idInstance, setIdInstance] = useState('')
-  const [apiTokenInstance, setApiTokenInstance] = useState('')
-  const navigate = useNavigate()
+  const [idInstance, setIdInstance] = useState('');
+  const [apiTokenInstance, setApiTokenInstance] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e: SubmitEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (idInstance && apiTokenInstance) {
-      authStore.setCredentials(idInstance, apiTokenInstance)
-      navigate('/')
+      authStore.setCredentials(idInstance, apiTokenInstance);
+      navigate('/');
     }
-  }
+  };
 
   return (
     <div className="login-container">
@@ -51,7 +51,7 @@ const Login = observer(() => {
         </form>
       </div>
     </div>
-  )
-})
+  );
+});
 
-export default Login
+export default Login;

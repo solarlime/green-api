@@ -1,16 +1,16 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { observer } from 'mobx-react-lite'
-import { Chat } from './components/Chat'
-import Login from './components/Login'
-import { authStore } from './store/authStore'
-import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { Chat } from './components/Chat';
+import Login from './components/Login';
+import { authStore } from './store/authStore';
+import './App.css';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   if (!authStore.isAuthenticated) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/login" replace />;
   }
-  return <>{children}</>
-}
+  return <>{children}</>;
+};
 
 const App = observer(() => {
   return (
@@ -27,7 +27,7 @@ const App = observer(() => {
         />
       </Routes>
     </BrowserRouter>
-  )
-})
+  );
+});
 
-export default App
+export default App;

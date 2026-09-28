@@ -1,8 +1,4 @@
-import {
-  SignOutIcon,
-  PlusIcon,
-  XIcon,
-} from '@phosphor-icons/react';
+import { SignOutIcon, PlusIcon, XIcon } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
@@ -11,7 +7,6 @@ import { chatStore } from '../store/chatStore';
 import AddChatModal from './AddChatModal';
 import { useWindowSize } from '../hooks/useWindowSize';
 import './Sidebar.css';
-import { Avatar } from "@radix-ui/react-avatar";
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -37,7 +32,9 @@ export const Sidebar = observer(({ isOpen, onClose }: SidebarProps) => {
   };
 
   return (
-    <div className={`sidebar ${isMobile ? 'sidebar-mobile' : ''} ${isMobile && !isOpen ? 'sidebar-hidden' : ''}`}>
+    <div
+      className={`sidebar ${isMobile ? 'sidebar-mobile' : ''} ${isMobile && !isOpen ? 'sidebar-hidden' : ''}`}
+    >
       <div className="sidebar-header">
         <h2>Чаты</h2>
         <button className="icon-button" onClick={() => setIsModalOpen(true)}>
@@ -57,11 +54,10 @@ export const Sidebar = observer(({ isOpen, onClose }: SidebarProps) => {
             className={`chat-item ${chatStore.selectedChatId === chat.id ? 'active' : ''}`}
             onClick={() => handleChatClick(chat.id)}
           >
-            <Avatar className="user-avatar">
-              <div className="avatar-placeholder">
-                {chat.username ? chat.username[1].toUpperCase() : '😎'}
-              </div>
-            </Avatar>
+            <div className="user-avatar">{
+              chat
+              .username ? chat.username[1].toUpperCase() : '😎'}
+            </div>
             <div className="chat-info">
               <div className="chat-name-row">
                 <span className="chat-name">
@@ -89,7 +85,10 @@ export const Sidebar = observer(({ isOpen, onClose }: SidebarProps) => {
         </button>
       </div>
 
-      <AddChatModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <AddChatModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 });
