@@ -6,7 +6,7 @@ import {
 } from '@phosphor-icons/react';
 import { Avatar } from '@radix-ui/react-avatar';
 import { observer } from 'mobx-react-lite';
-import { useState, useOptimistic, useTransition, useEffect } from 'react';
+import { useState, useOptimistic, useTransition } from 'react';
 import { chatStore, type Message } from '../store/chatStore';
 import { sendMessage } from '../services/greenApi';
 import { useWindowSize } from '../hooks/useWindowSize';
@@ -23,14 +23,6 @@ export const ChatWindow = observer(({ onToggleSidebar }: ChatWindowProps) => {
   const [isPending, startTransition] = useTransition();
   const { width } = useWindowSize();
   const isMobile = width <= 600;
-
-  useEffect(() => {
-    return () => {
-      if (selectedChat) {
-        chatStore.stopPolling(selectedChat.id);
-      }
-    };
-  }, [selectedChat]);
 
   const [optimisticMessages, addOptimisticMessage] = useOptimistic(
     messages,

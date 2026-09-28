@@ -23,20 +23,21 @@ class ChatStore {
   chats: Chat[] = []
   selectedChatId: string | null = null
   messages: Map<string, Message[]> = new Map()
-  pollingIntervals: Map<string, NodeJS.Timeout> = new Map()
+  pollingTimeout: NodeJS.Timeout | null = null
+  isPollingActive: boolean = false
 
   constructor() {
     makeAutoObservable(this)
 
-    // Stop all polling before page unload
+    // Stop polling before page unload
     window.addEventListener('beforeunload', () => {
-      this.stopAllPolling()
+      this.stopPolling()
     })
   }
 
   addChat(chat: Chat) {
     this.chats.unshift(chat)
-    this.startPolling(chat.id)
+    this.startPolling()
   }
 
   selectChat(chatId: string) {
@@ -75,46 +76,49 @@ class ChatStore {
     }
   }
 
-  async startPolling(chatId: string) {
-    if (this.pollingIntervals.has(chatId)) {
+  async startPolling() {
+    if (this.isPollingActive) {
+      console.log('Polling already active, skipping start')
       return
     }
 
+    console.log('Starting polling')
+    this.isPollingActive = true
+
     const poll = async () => {
       try {
+        console.log('Polling for notification...')
         const notification = await receiveNotification(30)
+        console.log('Received notification:', notification)
 
         if (notification && notification.body) {
           this.handleNotification(notification.body)
           // Delete notification after processing
           await deleteNotification(notification.receiptId)
+          console.log('Notification processed and deleted')
         }
       } catch (error) {
         console.error('Polling error:', error)
       }
 
-      // Continue polling after response is received
-      if (this.pollingIntervals.has(chatId)) {
-        const timeoutId = setTimeout(() => poll(), 0)
-        this.pollingIntervals.set(chatId, timeoutId)
+      // Continue polling if still active
+      if (this.isPollingActive) {
+        console.log('Scheduling next poll')
+        this.pollingTimeout = setTimeout(() => poll(), 0)
+      } else {
+        console.log('Polling stopped, not scheduling next poll')
       }
     }
 
-    const timeoutId = setTimeout(() => poll(), 0)
-    this.pollingIntervals.set(chatId, timeoutId)
+    this.pollingTimeout = setTimeout(() => poll(), 0)
   }
 
-  stopPolling(chatId: string) {
-    const interval = this.pollingIntervals.get(chatId)
-    if (interval) {
-      clearTimeout(interval)
-      this.pollingIntervals.delete(chatId)
+  stopPolling() {
+    this.isPollingActive = false
+    if (this.pollingTimeout) {
+      clearTimeout(this.pollingTimeout)
+      this.pollingTimeout = null
     }
-  }
-
-  stopAllPolling() {
-    this.pollingIntervals.forEach((interval) => clearTimeout(interval))
-    this.pollingIntervals.clear()
   }
 
   handleNotification(body: NotificationBody) {

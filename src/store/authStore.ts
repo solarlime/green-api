@@ -32,8 +32,8 @@ class AuthStore {
     localStorage.removeItem('idInstance')
     localStorage.removeItem('apiTokenInstance')
 
-    // Stop all polling processes
-    chatStore.stopAllPolling()
+    // Stop polling
+    chatStore.stopPolling()
   }
 
   get isAuthenticated(): boolean {
