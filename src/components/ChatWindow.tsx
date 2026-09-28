@@ -126,7 +126,7 @@ export const ChatWindow = observer(({ onToggleSidebar }: ChatWindowProps) => {
           optimisticMessages.map((message) => (
             <div key={message.id} className={`message ${message.isSent ? 'message-sent' : ''}`}>
               <div className="message-content">
-                <p>{message.text.split('\n').map((p, i) => <>{i > 0 && <br />}{p}</>)}</p>
+                <p>{message.text.split('\n').map((p, i) => <span key={i}>{i > 0 && <br />}{p}</span>)}</p>
                 <div className="message-meta">
                   <span className="message-time">
                     {message.timestamp.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
