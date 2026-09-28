@@ -32,10 +32,11 @@ const AddChatModal = observer(({ isOpen, onClose }: AddChatModalProps) => {
 
     try {
       let result;
+      let username: string | undefined;
 
       if (trimmedInput.startsWith('@')) {
         // Parse as username
-        const username = trimmedInput;
+        username = trimmedInput;
         result = await checkAccount(undefined, username);
       } else {
         // Parse as phone number
@@ -51,6 +52,13 @@ const AddChatModal = observer(({ isOpen, onClose }: AddChatModalProps) => {
       }
 
       if (result.exist) {
+        // Check if chat already exists
+        if (chatStore.chatExists(result.phoneNumber, result.username)) {
+          setError('Чат с этим пользователем уже существует');
+          setIsLoading(false);
+          return;
+        }
+
         chatStore.addChat({
           id: result.chatId,
           phoneNumber: result.phoneNumber,

@@ -39,9 +39,22 @@ class ChatStore {
     });
   }
 
+  chatExists(phoneNumber?: number, username?: string): boolean {
+    return this.chats.some(
+      (c) => c.phoneNumber === phoneNumber || c.username === username
+    );
+  }
+
   addChat(chat: Chat) {
+    const existingChat = this.chats.find(
+      (c) => c.phoneNumber === chat.phoneNumber || c.username === chat.username
+    );
+    if (existingChat) {
+      return existingChat;
+    }
     this.chats.unshift(chat);
     this.startPolling();
+    return chat;
   }
 
   selectChat(chatId: string) {
