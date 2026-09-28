@@ -3,13 +3,19 @@
   --text-h: #08060d;
   --bg: #fff;
   --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --primary-active: #1d4ed8;
+  --primary-light: #c5e8ff;
+  --bg-light: #f0f4f8;
+  --bg-hover: #f3f4f6;
+  --bg-hover-alt: #f9fafb;
+  --text-muted: #9ca3af;
+  --text-nav: #4b5563;
+  --text-white: white;
+  --error-bg: #fee2e2;
+  --error-text: #dc2626;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
 

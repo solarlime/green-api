@@ -1,7 +1,7 @@
 .sidebar {
   width: var(--sidebar-width);
-  background-color: #ffffff;
-  border-right: 1px solid #e5e7eb;
+  background-color: var(--bg);
+  border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -27,13 +27,13 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-s) var(--spacing-xl);
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border);
 }
 
 .sidebar-header h2 {
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
-  color: #111827;
+  color: var(--text-h);
   margin: 0;
 }
 
@@ -46,12 +46,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #6b7280;
+  color: var(--text);
   transition: background-color var(--transition-normal);
 }
 
 .icon-button:hover {
-  background-color: #f3f4f6;
+  background-color: var(--bg-hover);
 }
 
 .nav-item {
@@ -64,13 +64,13 @@
   border-radius: var(--radius-m);
   cursor: pointer;
   font-size: var(--font-size-m);
-  color: #4b5563;
+  color: var(--text-nav);
   transition: background-color var(--transition-normal);
   position: relative;
 }
 
 .nav-item:hover {
-  background-color: #f3f4f6;
+  background-color: var(--bg-hover);
 }
 
 .chat-list {
@@ -96,7 +96,7 @@
 }
 
 .chat-item:hover {
-  background-color: #f9fafb;
+  background-color: var(--bg-hover-alt);
 }
 
 .chat-info {
@@ -114,17 +114,17 @@
 .chat-name {
   font-size: var(--font-size-m);
   font-weight: var(--font-weight-semibold);
-  color: #111827;
+  color: var(--text-h);
 }
 
 .chat-time {
   font-size: var(--font-size-xs);
-  color: #9ca3af;
+  color: var(--text-muted);
 }
 
 .chat-preview {
   font-size: var(--font-size-s);
-  color: #6b7280;
+  color: var(--text);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -132,8 +132,8 @@
 }
 
 .notification-badge {
-  background-color: #3b82f6;
-  color: white;
+  background-color: var(--primary);
+  color: var(--text-white);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   padding: var(--spacing-xs) var(--spacing-s);
@@ -144,5 +144,5 @@
 
 .sidebar-footer {
   padding: var(--spacing-s) var(--spacing-xl);
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--border);
 }
